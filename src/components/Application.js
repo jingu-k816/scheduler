@@ -10,7 +10,7 @@ import Appointment from "components/Appointment/index";
 import "components/Application.scss";
 
 //import helper functions
-import { getAppointmentsForDay, getInterview } from "helpers/selectors";
+import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
 
 // const appointments = [
 //   {
@@ -67,6 +67,7 @@ export default function Application(props) {
     interviewers: {}
   });
   const dailyAppointments = getAppointmentsForDay(state, state.day);
+  const dailyInterviewers = getInterviewersForDay(state, state.day);
 
   const setDay = (day) => setState({ ...state, day});
 
@@ -80,11 +81,11 @@ export default function Application(props) {
       axios.get(appointmentsURL),
       axios.get(interviewersURL)
     ]).then((all) => {
-      setState(prev => ({...prev, days: all[0].data, appointments: all[1].data, interviews: all[2].data}));
+      setState(prev => ({...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data}));
     });
 
   }, []);
-
+  
   const parsedAppointment = dailyAppointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
     return(
@@ -92,7 +93,8 @@ export default function Application(props) {
       key={appointment.id} 
       id={appointment.id}
       time={appointment.time} 
-      interview={interview} 
+      interview={interview}
+      interviewers={dailyInterviewers} 
     />);
   });
   return (
