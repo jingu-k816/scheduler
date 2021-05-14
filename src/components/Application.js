@@ -71,6 +71,28 @@ export default function Application(props) {
 
   const setDay = (day) => setState({ ...state, day});
 
+  function bookInterview(id, interview) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview},
+
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    }
+
+    const URL = `http://localhost:8001/api/appointments/${id}`
+    return axios.put(URL, {interview})
+    .then(() => {
+      setState({
+        ...state,
+        appointments
+      })
+    })
+    .catch((err) => console.log(err.message));
+  }
+
   useEffect(() => {
     const daysURL = "http://localhost:8001/api/days";
     const appointmentsURL = "http://localhost:8001/api/appointments";
@@ -95,6 +117,7 @@ export default function Application(props) {
       time={appointment.time} 
       interview={interview}
       interviewers={dailyInterviewers} 
+      bookInterview={bookInterview}
     />);
   });
   return (
