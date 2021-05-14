@@ -10,6 +10,18 @@ export function getAppointmentsForDay(state, day) {
   : filteredDay[0].appointments.map(appointment => state.appointments[appointment]);
 }
 
+export function getInterviewersForDay(state, day) {
+  //filter the matching day
+  const filteredDay = state.days.filter(result => result.name === day);
+  /*
+  filteredDay[0].interviewers is a number of interviewers in filteredDay's object
+  Used ternary operator to return an empty array when there's no matching data available
+  else map through the list of interviewers and return the matching interviewers
+  */
+  return filteredDay.length === 0 ? [] 
+  : filteredDay[0].interviewers.map(interviewer => state.interviewers[interviewer]);
+}
+
 export function getInterview(state, interview) {
   return !interview 
   ? null 
