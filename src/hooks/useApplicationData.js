@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+import {updateSpots} from "helpers/selectors";
+
 export default function useApplicationData() {
   const [state, setState] = useState({
     day:"Monday",
@@ -22,12 +24,15 @@ export default function useApplicationData() {
       [id]: appointment
     }
 
+    const days = updateSpots(state.days, appointments, id);
+
     const URL = `http://localhost:8001/api/appointments/${id}`
     return axios.put(URL, {interview})
     .then(() => {
       setState({
         ...state,
-        appointments
+        appointments,
+        days
       })
     });
   }
@@ -43,12 +48,15 @@ export default function useApplicationData() {
       [id]: appointment
     }
 
+    const days = updateSpots(state.days, appointments, id);
+
     const URL = `http://localhost:8001/api/appointments/${id}`
     return axios.delete(URL)
     .then(() => {
       setState({
         ...state,
-        appointments
+        appointments,
+        days
       })
     });
   }

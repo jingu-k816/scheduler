@@ -1,28 +1,28 @@
 import { useState } from "react";
+/**
+ * How I want the mode to move
+  1. EMPTY -> SHOW -> CREATE  (mode: CREATE)
+  2. EMPTY -> SHOW -> CREATE -> SAVING  (mode: SAVING)
+  3. EMPTY -> SHOW -> SAVING (replace) (mode: SAVING)
+*/
 
 export default function useVisualMode(initial) {
-  const [mode, setMode] = useState(initial);
   const [history, setHistory] = useState([initial]);
 
   const transition = (newMode, replace = false) => {
-    let tempHistory = history;
-    if (replace) {
-      tempHistory.pop();
-      tempHistory.push(newMode);
-      setHistory(prev => tempHistory);
+    if(replace) {
+      setHistory(prev => [...prev.slice(0, -1), newMode]);
     } else {
       setHistory(prev => [...prev, newMode]);
     }
-    return setMode(prev => newMode);
   }
   
   const back = () => {
-    if (mode !== initial) {
-      let tempHistory = history;
-      tempHistory.pop();
-      setHistory(prev => tempHistory);
-      return setMode(prev => history[tempHistory.length - 1]);
+    if (history.length > 1) {
+      setHistory(prev => prev.slice(0, -1));
     }
   }
-  return { mode, transition, back };
+  const mode = history[history.length-1]
+
+  return { mode , transition, back };
 }

@@ -30,3 +30,15 @@ export function getInterview(state, interview) {
       "interviewer" : state.interviewers[interview.interviewer]
     };
 }
+
+export function updateSpots(days, appointments, id) {
+  //Ouputs the object matching with the day's id
+  const dayFound = days.find(day => day.id === id);
+  //Outputs the number of spots books 
+  const nbSpots = dayFound.appointments.filter(appointmentId => appointments[appointmentId].interview === null).length;
+  
+  //Shallow copy of days JSON data
+  const copyDays = [...days];
+
+  return copyDays.map(day => day.id === id ? {...day, spots: nbSpots} : day);
+}
