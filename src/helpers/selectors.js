@@ -32,7 +32,6 @@ export function getInterview(state, interview) {
 }
 
 export function updateSpots(days, appointments, dayName) {
-  debugger;
   //Ouputs the object matching with the day's id
   const dayFound = days.find(day => day.name === dayName);
   //Outputs the number of spots books 
