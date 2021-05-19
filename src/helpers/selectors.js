@@ -31,14 +31,15 @@ export function getInterview(state, interview) {
     };
 }
 
-export function updateSpots(days, appointments, id) {
+export function updateSpots(days, appointments, dayName) {
+  debugger;
   //Ouputs the object matching with the day's id
-  const dayFound = days.find(day => day.id === id);
+  const dayFound = days.find(day => day.name === dayName);
   //Outputs the number of spots books 
   const nbSpots = dayFound.appointments.filter(appointmentId => appointments[appointmentId].interview === null).length;
   
   //Shallow copy of days JSON data
   const copyDays = [...days];
 
-  return copyDays.map(day => day.id === id ? {...day, spots: nbSpots} : day);
+  return copyDays.map(day => day.name === dayName ? {...day, spots: nbSpots} : day);
 }

@@ -24,7 +24,7 @@ export default function useApplicationData() {
       [id]: appointment
     }
 
-    const days = updateSpots(state.days, appointments, id);
+    const days = updateSpots(state.days, appointments, state.day);
 
     const URL = `http://localhost:8001/api/appointments/${id}`
     return axios.put(URL, {interview})
@@ -48,7 +48,7 @@ export default function useApplicationData() {
       [id]: appointment
     }
 
-    const days = updateSpots(state.days, appointments, id);
+    const days = updateSpots(state.days, appointments, state.day);
 
     const URL = `http://localhost:8001/api/appointments/${id}`
     return axios.delete(URL)
