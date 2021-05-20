@@ -55,7 +55,7 @@ export default function useApplicationData() {
 
     const days = updateSpots(state.days, appointments, state.day);
 
-    const URL = `http://localhost:8001/api/appointments/${id}`
+    const URL = `/api/appointments/${id}`
 
     //deletes the data from the database (scheduler API)
     return axios.delete(URL)
