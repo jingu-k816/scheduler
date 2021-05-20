@@ -4,17 +4,18 @@ import classNames from 'classnames/bind';
 import "components/InterviewerListItem.scss"
 
 export default function InterviewerListItem(props) {
+  const { selected, setInterviewer, avatar, name } = props
   const interviwerListItemClass = classNames("interviewers__item", {
-    "interviewers__item--selected": props.selected
+    "interviewers__item--selected": selected
   })
   return(
-  <li className={interviwerListItemClass} onClick={props.setInterviewer}>
+  <li className={interviwerListItemClass} onClick={setInterviewer}>
   <img
     className="interviewers__item-image"
-    src={props.avatar}
-    alt={props.name}
+    src={avatar}
+    alt={name}
   />
-  {props.selected && props.name}
+  {selected && name}
 </li>
   );
 }

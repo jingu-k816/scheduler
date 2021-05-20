@@ -14,11 +14,12 @@ export default function useApplicationData() {
   const setDay = (day) => setState({ ...state, day});
 
   function bookInterview(id, interview) {
+    //copy of the single appointment
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview},
     };
-    
+    //copy of the whole appointments JSON data updating the specific part of the data that somebody has booked the slot
     const appointments = {
       ...state.appointments,
       [id]: appointment
@@ -27,6 +28,8 @@ export default function useApplicationData() {
     const days = updateSpots(state.days, appointments, state.day);
 
     const URL = `http://localhost:8001/api/appointments/${id}`
+
+    //saves into the database (Scheduler API)
     return axios.put(URL, {interview})
     .then(() => {
       setState({
@@ -38,11 +41,13 @@ export default function useApplicationData() {
   }
 
   function cancelInterview(id) {
+
+    //copy of the single appointment
     const appointment = {
       ...state.appointments[id],
       interview: null
     };
-    
+    //copy of the whole appointments JSON data updating the deletion
     const appointments = {
       ...state.appointments,
       [id]: appointment
@@ -51,6 +56,8 @@ export default function useApplicationData() {
     const days = updateSpots(state.days, appointments, state.day);
 
     const URL = `http://localhost:8001/api/appointments/${id}`
+
+    //deletes the data from the database (scheduler API)
     return axios.delete(URL)
     .then(() => {
       setState({
@@ -66,6 +73,7 @@ export default function useApplicationData() {
     const appointmentsURL = "/api/appointments";
     const interviewersURL = "/api/interviewers";
 
+    //GET request on data from /api/days , appointments and interviewers using Promise
     Promise.all([
       axios.get(daysURL),
       axios.get(appointmentsURL),
@@ -76,5 +84,6 @@ export default function useApplicationData() {
 
   }, []);
 
+  // this custom hook returns functions and states
   return { state, setDay, bookInterview, cancelInterview };
 }
