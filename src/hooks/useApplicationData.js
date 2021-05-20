@@ -27,7 +27,7 @@ export default function useApplicationData() {
 
     const days = updateSpots(state.days, appointments, state.day);
 
-    const URL = `http://localhost:8001/api/appointments/${id}`
+    const URL = `/api/appointments/${id}`
 
     //saves into the database (Scheduler API)
     return axios.put(URL, {interview})
