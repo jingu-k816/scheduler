@@ -8,10 +8,10 @@ Jest, Cypress are used for integration, end to end tests throughout the project.
 - The website is deployed using netlify and heroku! 
 - You can click [here](https://interview-schduler.netlify.app/) to see the App!
 - Back-end server can be found [here](https://scheduler-jingu.herokuapp.com/).<br/>
-  Note: the server supports thress GET endpoint. The `/` path will return a 404 error <br/>
-  `GET /api/days`
-  `GET /api/appointments`
-  `GET /api/interviewers`
+    Note: the server supports thress GET endpoint. The `/` path will return a 404 error <br/>
+      `GET /api/days`<br/>
+      `GET /api/appointments`<br/>
+      `GET /api/interviewers`<br/>
 
 
 ## Screenshots
