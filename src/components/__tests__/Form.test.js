@@ -1,6 +1,6 @@
 import React from "react";
 
-import { render, cleanup, fireEvent, getByText } from "@testing-library/react";
+import { render, cleanup, fireEvent, getByText, getByAltText } from "@testing-library/react";
 
 import Form from "components/Appointment/Form";
 
@@ -41,31 +41,38 @@ describe("Form", () => {
     /* 3. Click the save button */
     fireEvent.click(getByText("Save"));
 
-    expect(getByText(/Student name or interviewer cannot be blank!/i)).toBeInTheDocument();
+    expect(getByText(/Student name cannot be blank!/i)).toBeInTheDocument();
     expect(onSave).not.toHaveBeenCalled();
   });
   
   it("can successfully save after trying to submit an empty student name", () => {
     const onSave = jest.fn();
-    const { getByText, getByPlaceholderText, queryByText } = render(
+    const { getByText, getByAltText ,getByPlaceholderText, queryByText } = render(
       <Form interviewers={interviewers} onSave={onSave} />
     );
   
     fireEvent.click(getByText("Save"));
   
-    expect(getByText(/Student name or interviewer cannot be blank!/i)).toBeInTheDocument();
+    expect(getByText(/Student name cannot be blank!/i)).toBeInTheDocument();
     expect(onSave).not.toHaveBeenCalled();
-  
+    
     fireEvent.change(getByPlaceholderText("Enter Student Name"), {
       target: { value: "Lydia Miller-Jones" }
     });
-  
+    
     fireEvent.click(getByText("Save"));
-  
-    expect(queryByText(/Student name or interviewer cannot be blank!/i)).toBeNull();
-  
+    
+    expect(queryByText(/Student name cannot be blank!/i)).toBeNull();
+    expect(getByText(/Interviewer field cannot be blank!/i)).toBeInTheDocument();
+    
+    expect(onSave).not.toHaveBeenCalled();
+    
+    fireEvent.click(getByAltText("Sylvia Palmer"));
+
+    fireEvent.click(getByText("Save"));
+    expect(queryByText(/Interviewer field cannot be blank!/i)).toBeNull();
+
     expect(onSave).toHaveBeenCalledTimes(1);
-    expect(onSave).toHaveBeenCalledWith("Lydia Miller-Jones", null);
   });
 
   it("calls onCancel and resets the input field", () => {
